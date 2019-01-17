@@ -1,4 +1,5 @@
-﻿using ShiftServer.Proto.RestModels;
+﻿using Colorful;
+using ShiftServer.Proto.RestModels;
 using System;
 using System.Drawing;
 using Console = Colorful.Console;
@@ -33,18 +34,21 @@ namespace BOT {
         }
 
         public void SayInfo() {
-            Console.WriteLine("*ACCOUNT*");
-            Console.WriteLine("Gem: " + _account.gem);
-            Console.WriteLine("Gold: " + _account.gold);
+            ColorAlternatorFactory alternatorFactory = new ColorAlternatorFactory();
+            ColorAlternator alternator = alternatorFactory.GetAlternator(2, Color.Plum, Color.PaleVioletRed);
+
+            Console.WriteLine("\n*ACCOUNT*");
+            Console.WriteLine("...Gem: " + _account.gem);
+            Console.WriteLine("...Gold: " + _account.gold);
             Console.WriteLine("...CHARACTERS (" + _account.characters.Count + ")");
 
             for (int ii = 0; ii < _account.characters.Count; ii++) {
                 CharacterModel character = _account.characters[ii];
 
-                Console.WriteLine(character.name + " " + character.level + " Lv. " + character.exp);
+                Console.WriteLineAlternating("..." + character.name + " " + character.level + " Lv. " + character.exp, alternator);
             }
 
-            Console.WriteLine("Selected Character Name: " + _account.selected_char_name);
+            Console.WriteLine("...Selected Character Name: " + _account.selected_char_name);
         }
 
         public CharacterModel GetCharacter(string name) {

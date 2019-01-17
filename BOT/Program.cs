@@ -45,6 +45,8 @@ namespace BOT {
                 AccountManager.instance.Initialize(accountDataResponse);
 
                 CharacterManager.instance.CreateCharacter(DB.Names.GetRandomName(), 0);
+
+                AccountManager.instance.SayInfo();
             }
         }
 
