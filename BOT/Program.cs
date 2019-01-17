@@ -19,12 +19,31 @@ namespace BOT {
             bool runForever = true;
 
             while (runForever) {
+                Console.WriteLine("\nCMD Commands --help", Color.LawnGreen);
+
                 string userInput = Console.ReadLine();
                 if (String.IsNullOrEmpty(userInput)) continue;
 
                 switch (userInput) {
                     case "q":
                         runForever = false;
+                        break;
+                    case "--help":
+                        Console.WriteLine("\nCOMMANDS", Color.LemonChiffon);
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-5} |",
+                            "Quit",
+                            "q",
+                            Color.LemonChiffon);
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-5} |",
+
+                            "Account Info",
+                            "acc",
+                            Color.LemonChiffon);
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-5} |",
+
+                            "Clear Console",
+                            "cls",
+                            Color.LemonChiffon);
                         break;
                     case "acc":
                         AccountManager.instance.SayInfo();
