@@ -5,6 +5,9 @@ namespace BOT {
 
     public class CharacterCreator {
 
+        public int tryCounter = 0;
+        public int tryMax = 50;
+
         public CharacterCreator() {
             Console.WriteLine("...Initializing CharacterCreator");
 
@@ -12,25 +15,33 @@ namespace BOT {
         }
 
         public CharacterModel CreateCharacter(string name, int classIndex) {
-            RequestCharAdd requestCreateCharacter = new RequestCharAdd();
-            requestCreateCharacter.class_index = classIndex;
-            requestCreateCharacter.char_name = name;
-            requestCreateCharacter.session_id = NetworkManager.instance.SessionID;
+            CharacterModel createdCharacter = null;
+            bool tryToCreate = true;
 
-            CharAdd createdCharacter = null;
+            do {
+                tryCounter++;
+                Console.WriteLine("Trying to create a character...(" + tryCounter + ")");
 
-            APIConfig.CreateCharacterPostMethod(requestCreateCharacter, (CharAdd charAddResponse) => {
-                if (charAddResponse.success) {
-                    Console.WriteLine(APIConfig.SUCCESS_TO_CREATE_CHARACTER);
-                } else {
-                    Console.WriteLine(APIConfig.ERROR_CREATE_CHARACTER);
-                    Console.WriteLine(charAddResponse.error_message);
-                }
+                RequestCharAdd requestCreateCharacter = new RequestCharAdd();
+                requestCreateCharacter.class_index = classIndex;
+                requestCreateCharacter.char_name = name;
+                requestCreateCharacter.session_id = NetworkManager.instance.SessionID;
 
-                createdCharacter = charAddResponse;
-            });
+                APIConfig.CreateCharacterPostMethod(requestCreateCharacter, (CharAdd charAddResponse) => {
+                    if (charAddResponse.success) {
+                        Console.WriteLine(APIConfig.SUCCESS_TO_CREATE_CHARACTER);
 
-            return createdCharacter.character;
+                        tryToCreate = false;
+
+                        createdCharacter = charAddResponse.character;
+                    } else {
+                        Console.WriteLine(APIConfig.ERROR_CREATE_CHARACTER);
+                        Console.WriteLine(charAddResponse.error_message);
+                    }
+                });
+            } while (tryToCreate && tryMax > tryCounter);
+
+            return createdCharacter;
         }
 
     }

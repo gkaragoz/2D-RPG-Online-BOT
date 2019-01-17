@@ -1,6 +1,5 @@
 ﻿using ShiftServer.Proto.RestModels;
 using System;
-using System.Collections.Generic;
 
 namespace BOT {
 
@@ -25,6 +24,9 @@ namespace BOT {
                     case "q":
                         runForever = false;
                         break;
+                    case "acc":
+                        AccountManager.instance.SayInfo();
+                        break;
                     case "cls":
                         Console.Clear();
                         break;
@@ -41,8 +43,6 @@ namespace BOT {
                 AccountManager.instance.Initialize(accountDataResponse);
 
                 CreateCharacter("TestBOT2", 0);
-
-                AccountManager.instance.SayInfo();
             }
         }
 
