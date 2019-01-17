@@ -28,6 +28,7 @@ namespace BOT {
 
         public void CreateCharacter(string name, int classIndex) {
             CharacterModel createdCharacter = _characterCreator.CreateCharacter(name, classIndex);
+            Console.WriteLine("Character created: " + createdCharacter.name + " (" + createdCharacter.class_index + ")");
 
             if (createdCharacter == null) {
                 return;
@@ -36,7 +37,6 @@ namespace BOT {
             onCharacterCreated?.Invoke(createdCharacter);
 
             SelectCharacter(createdCharacter);
-            Console.WriteLine("Character created: " + createdCharacter.name + " (" + createdCharacter.class_index + ")");
         }
 
         public void SelectCharacter(CharacterModel selectedCharacter) {

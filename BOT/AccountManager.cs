@@ -20,14 +20,14 @@ namespace BOT {
         }
 
         public void Initialize(Account account) {
-            Console.WriteLine("...Account saving");
+            Console.WriteLine("Account saving...");
 
             this._account = account;
 
             CharacterManager.instance.onCharacterCreated = AddCharacter;
             CharacterManager.instance.onCharacterSelected = SelectCharacter;
 
-            Console.WriteLine("...Account saved successfully");
+            Console.WriteLine("Account saved successfully!\n");
         }
 
         public void SayInfo() {

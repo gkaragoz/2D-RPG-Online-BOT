@@ -32,14 +32,14 @@ namespace BOT {
 
                 APIConfig.CreateCharacterPostMethod(requestCreateCharacter, (CharAdd charAddResponse) => {
                     if (charAddResponse.success) {
-                        Console.WriteLine(APIConfig.SUCCESS_TO_CREATE_CHARACTER);
+                        Console.WriteLine(APIConfig.SUCCESS_TO_CREATE_CHARACTER + "\n");
 
                         tryToCreate = false;
 
                         createdCharacter = charAddResponse.character;
                     } else {
                         Console.WriteLine(APIConfig.ERROR_CREATE_CHARACTER);
-                        Console.WriteLine(charAddResponse.error_message);
+                        Console.WriteLine(charAddResponse.error_message + "\n");
 
                         name = DB.Names.GetRandomName();
                     }

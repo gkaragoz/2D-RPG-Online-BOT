@@ -54,7 +54,7 @@ namespace BOT {
             CharacterManager characterManager = new CharacterManager();
             DB database = new DB();
 
-            Console.WriteLine("Building completed!");
+            Console.WriteLine("Building completed!\n");
         }
     }
 

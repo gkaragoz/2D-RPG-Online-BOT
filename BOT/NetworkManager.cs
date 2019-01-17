@@ -57,11 +57,11 @@ namespace BOT {
 
             APIConfig.GuestLoginPostMethod(requestGuestAuth, (Auth authResponse) => {
                 if (authResponse.success) {
-                    Console.WriteLine(APIConfig.SUCCESS_GET_SESSION_ID + " " + authResponse.session_id);
+                    Console.WriteLine(APIConfig.SUCCESS_GET_SESSION_ID + " " + authResponse.session_id + "\n");
                     SessionID = authResponse.session_id;
                     UserID = authResponse.user_id;
                 } else {
-                    Console.WriteLine(APIConfig.ERROR_GET_SESSION_ID);
+                    Console.WriteLine(APIConfig.ERROR_GET_SESSION_ID + "\n");
                 }
 
                 success(authResponse.success);
@@ -74,9 +74,9 @@ namespace BOT {
 
             APIConfig.AccountDataPostMethod(requestAccountData, (Account accountDataResponse) => {
                 if (accountDataResponse.success) {
-                    Console.WriteLine(APIConfig.SUCCESS_GET_ACCOUNT_INFO);
+                    Console.WriteLine(APIConfig.SUCCESS_GET_ACCOUNT_INFO + "\n");
                 } else {
-                    Console.WriteLine(APIConfig.ERROR_GET_ACCOUNT_INFO);
+                    Console.WriteLine(APIConfig.ERROR_GET_ACCOUNT_INFO + "\n");
                 }
 
                 callback(accountDataResponse);
