@@ -42,14 +42,8 @@ namespace BOT {
             if (accountDataResponse.success) {
                 AccountManager.instance.Initialize(accountDataResponse);
 
-                CreateCharacter("TestBOT2", 0);
+                CharacterManager.instance.CreateCharacter(DB.Names.GetRandomName(), 0);
             }
-        }
-
-        static void CreateCharacter(string name, int classIndex) {
-            Console.WriteLine("...Creating character");
-
-            CharacterManager.instance.CreateCharacter(name, classIndex);
         }
 
         static void CreateSystems() {
@@ -58,6 +52,7 @@ namespace BOT {
             NetworkManager networkManager = new NetworkManager();
             AccountManager accountManager = new AccountManager();
             CharacterManager characterManager = new CharacterManager();
+            DB database = new DB();
 
             Console.WriteLine("Building completed!");
         }

@@ -36,13 +36,13 @@ namespace BOT {
             onCharacterCreated?.Invoke(createdCharacter);
 
             SelectCharacter(createdCharacter);
-            Console.WriteLine("Character created: " + createdCharacter.name + "(" + createdCharacter.class_index + ")");
+            Console.WriteLine("Character created: " + createdCharacter.name + " (" + createdCharacter.class_index + ")");
         }
 
         public void SelectCharacter(CharacterModel selectedCharacter) {
             this._selectedCharacter = selectedCharacter;
             onCharacterSelected?.Invoke(selectedCharacter.name);
-            Console.WriteLine("Character selected: " + _selectedCharacter.name + "(" + _selectedCharacter.class_index + ")" + _selectedCharacter.level + " Lv. Exp:" + _selectedCharacter.exp);
+            Console.WriteLine("Character selected: " + _selectedCharacter.name + " (" + _selectedCharacter.class_index + ") " + _selectedCharacter.level + " Lv. Exp:" + _selectedCharacter.exp);
         }
 
     }

@@ -6,7 +6,7 @@ namespace BOT {
     public class CharacterCreator {
 
         public int tryCounter = 0;
-        public int tryMax = 50;
+        public int tryMax = 5;
 
         public CharacterCreator() {
             Console.WriteLine("...Initializing CharacterCreator");
@@ -19,7 +19,10 @@ namespace BOT {
             bool tryToCreate = true;
 
             do {
-                tryCounter++;
+                if (tryMax < ++tryCounter) {
+                    break;
+                }
+
                 Console.WriteLine("Trying to create a character...(" + tryCounter + ")");
 
                 RequestCharAdd requestCreateCharacter = new RequestCharAdd();
@@ -37,9 +40,11 @@ namespace BOT {
                     } else {
                         Console.WriteLine(APIConfig.ERROR_CREATE_CHARACTER);
                         Console.WriteLine(charAddResponse.error_message);
+
+                        name = DB.Names.GetRandomName();
                     }
                 });
-            } while (tryToCreate && tryMax > tryCounter);
+            } while (tryToCreate);
 
             return createdCharacter;
         }

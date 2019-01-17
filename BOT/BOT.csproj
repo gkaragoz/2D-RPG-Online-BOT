@@ -91,6 +91,7 @@
     <Compile Include="APIConfig.cs" />
     <Compile Include="CharacterCreator.cs" />
     <Compile Include="CharacterManager.cs" />
+    <Compile Include="DB.cs" />
     <Compile Include="NetworkManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
