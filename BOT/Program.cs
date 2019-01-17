@@ -1,15 +1,35 @@
 ﻿using ShiftServer.Proto.RestModels;
 using System;
+using System.Collections.Generic;
 
 namespace BOT {
 
     class Program {
+
         static void Main(string[] args) {
             CreateSystems();
 
             NetworkManager.instance.LoginAsAGuest(OnLoginAsAGuest);
 
-            Console.ReadLine();
+            Run();
+        }
+
+        public static void Run() {
+            bool runForever = true;
+
+            while (runForever) {
+                string userInput = Console.ReadLine();
+                if (String.IsNullOrEmpty(userInput)) continue;
+
+                switch (userInput) {
+                    case "q":
+                        runForever = false;
+                        break;
+                    case "cls":
+                        Console.Clear();
+                        break;
+                }
+            }
         }
 
         private static void OnLoginAsAGuest(bool success) {
