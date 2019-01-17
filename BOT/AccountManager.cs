@@ -24,6 +24,9 @@ namespace BOT {
 
             this._account = account;
 
+            CharacterManager.instance.onCharacterCreated = AddCharacter;
+            CharacterManager.instance.onCharacterSelected = SelectCharacter;
+
             Console.WriteLine("...Account saved successfully");
         }
 
@@ -40,6 +43,23 @@ namespace BOT {
             }
 
             Console.WriteLine("Selected Character Name: " + _account.selected_char_name);
+        }
+
+        public CharacterModel GetCharacter(string name) {
+            for (int ii = 0; ii < _account.characters.Count; ii++) {
+                if (_account.characters[ii].name == name) {
+                    return _account.characters[ii];
+                }
+            }
+            return null;
+        }
+
+        private void AddCharacter(CharacterModel newCharacter) {
+            _account.characters.Add(newCharacter);
+        }
+
+        private void SelectCharacter(string selectedCharacterName) {
+            _account.selected_char_name = selectedCharacterName;
         }
 
     }

@@ -19,9 +19,17 @@ namespace BOT {
         private static void OnRequestAccountData(Account accountDataResponse) {
             if (accountDataResponse.success) {
                 AccountManager.instance.Initialize(accountDataResponse);
-            } else {
 
+                CreateCharacter("TestBOT2", 0);
+
+                AccountManager.instance.SayInfo();
             }
+        }
+
+        static void CreateCharacter(string name, int classIndex) {
+            Console.WriteLine("...Creating character");
+
+            CharacterManager.instance.CreateCharacter(name, classIndex);
         }
 
         static void CreateSystems() {
