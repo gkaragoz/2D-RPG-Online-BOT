@@ -42,9 +42,20 @@ namespace BOT {
         }
 
         public void SelectCharacter(CharacterModel selectedCharacter) {
-            this._selectedCharacter = selectedCharacter;
-            onCharacterSelected?.Invoke(selectedCharacter.name);
-            Console.WriteLine("Character selected: " + _selectedCharacter.name + " (" + _selectedCharacter.class_index + ") " + _selectedCharacter.level + " Lv. Exp:" + _selectedCharacter.exp, Color.Bisque);
+            RequestCharSelect RequestSelectCharacter = new RequestCharSelect();
+            RequestSelectCharacter.char_name = selectedCharacter.name;
+            RequestSelectCharacter.session_id = NetworkManager.instance.SessionID;
+
+            APIConfig.SelectCharacterPostMethod(RequestSelectCharacter, (CharSelect charSelectResponse) => {
+                if (charSelectResponse.success) {
+                    Console.WriteLine(APIConfig.SUCCESS_TO_SELECT_CHARACTER + "\n", Color.LightSeaGreen);
+                    this._selectedCharacter = selectedCharacter;
+                    onCharacterSelected?.Invoke(selectedCharacter.name);
+                    Console.WriteLine("Character selected: " + _selectedCharacter.name + " (" + _selectedCharacter.class_index + ") " + _selectedCharacter.level + " Lv. Exp:" + _selectedCharacter.exp, Color.Bisque);
+                } else {
+                    Console.WriteLine(APIConfig.ERROR_SELECT_CHARACTER + "\n", Color.OrangeRed);
+                }
+            });
         }
 
     }

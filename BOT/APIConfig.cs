@@ -112,5 +112,26 @@ namespace BOT {
             }
         }
 
+        public static void SelectCharacterPostMethod(RequestCharSelect requestCharSelect, Action<CharSelect> callback) {
+            Console.WriteLine(ATTEMP_TO_SELECT_CHARACTER, Color.Orange);
+
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(URL_SelectCharacter);
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream())) {
+                streamWriter.Write(JsonConvert.SerializeObject(requestCharSelect));
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream())) {
+                var result = streamReader.ReadToEnd();
+
+                callback(JsonConvert.DeserializeObject<CharSelect>(result));
+            }
+        }
+
     }
 }
