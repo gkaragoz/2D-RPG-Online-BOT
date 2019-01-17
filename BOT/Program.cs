@@ -1,5 +1,7 @@
 ﻿using ShiftServer.Proto.RestModels;
 using System;
+using System.Drawing;
+using Console = Colorful.Console;
 
 namespace BOT {
 
@@ -47,14 +49,14 @@ namespace BOT {
         }
 
         static void CreateSystems() {
-            Console.WriteLine("Building systems...");
+            Console.WriteLine("Building systems...", Color.LightSkyBlue);
 
             NetworkManager networkManager = new NetworkManager();
             AccountManager accountManager = new AccountManager();
             CharacterManager characterManager = new CharacterManager();
             DB database = new DB();
 
-            Console.WriteLine("Building completed!\n");
+            Console.WriteLine("Building completed!\n", Color.LawnGreen);
         }
     }
 

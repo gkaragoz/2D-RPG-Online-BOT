@@ -1,5 +1,7 @@
 ﻿using ShiftServer.Proto.RestModels;
 using System;
+using System.Drawing;
+using Console = Colorful.Console;
 
 namespace BOT {
 
@@ -10,24 +12,24 @@ namespace BOT {
         private Account _account;
 
         public AccountManager() {
-            Console.WriteLine("...Initializing AccountManager");
+            Console.WriteLine("...Initializing AccountManager", Color.LightSkyBlue);
 
             if (instance == null) {
                 instance = this;
             }
 
-            Console.WriteLine("...Successfully initialized AccountManager");
+            Console.WriteLine("...Successfully initialized AccountManager", Color.LightSeaGreen);
         }
 
         public void Initialize(Account account) {
-            Console.WriteLine("Account saving...");
+            Console.WriteLine("Account saving...", Color.LightSkyBlue);
 
             this._account = account;
 
             CharacterManager.instance.onCharacterCreated = AddCharacter;
             CharacterManager.instance.onCharacterSelected = SelectCharacter;
 
-            Console.WriteLine("Account saved successfully!\n");
+            Console.WriteLine("Account saved successfully!\n", Color.LightSeaGreen);
         }
 
         public void SayInfo() {

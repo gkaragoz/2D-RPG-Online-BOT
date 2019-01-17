@@ -2,6 +2,8 @@
 using ShiftServer.Client.Data.Entities;
 using ShiftServer.Proto.RestModels;
 using System;
+using System.Drawing;
+using Console = Colorful.Console;
 
 namespace BOT {
 
@@ -26,7 +28,7 @@ namespace BOT {
         private const string ON_CONNECTION_LOST = "Connection lost!";
 
         public NetworkManager() {
-            Console.WriteLine("...Initializing NetworkManager");
+            Console.WriteLine("...Initializing NetworkManager", Color.LightSkyBlue);
 
             if (instance == null) {
                 instance = this;
@@ -37,7 +39,7 @@ namespace BOT {
             mss.AddEventListener(MSServerEvent.ConnectionFailed, OnConnectionFailed);
             mss.AddEventListener(MSServerEvent.ConnectionLost, OnConnectionLost);
 
-            Console.WriteLine("...Successfully initialized NetworkManager");
+            Console.WriteLine("...Successfully initialized NetworkManager", Color.LightSeaGreen);
         }
 
         public void ConnectToGameplayServer() {
@@ -57,11 +59,11 @@ namespace BOT {
 
             APIConfig.GuestLoginPostMethod(requestGuestAuth, (Auth authResponse) => {
                 if (authResponse.success) {
-                    Console.WriteLine(APIConfig.SUCCESS_GET_SESSION_ID + " " + authResponse.session_id + "\n");
+                    Console.WriteLine(APIConfig.SUCCESS_GET_SESSION_ID + " " + authResponse.session_id + "\n", Color.MediumPurple);
                     SessionID = authResponse.session_id;
                     UserID = authResponse.user_id;
                 } else {
-                    Console.WriteLine(APIConfig.ERROR_GET_SESSION_ID + "\n");
+                    Console.WriteLine(APIConfig.ERROR_GET_SESSION_ID + "\n", Color.OrangeRed);
                 }
 
                 success(authResponse.success);
@@ -74,9 +76,9 @@ namespace BOT {
 
             APIConfig.AccountDataPostMethod(requestAccountData, (Account accountDataResponse) => {
                 if (accountDataResponse.success) {
-                    Console.WriteLine(APIConfig.SUCCESS_GET_ACCOUNT_INFO + "\n");
+                    Console.WriteLine(APIConfig.SUCCESS_GET_ACCOUNT_INFO + "\n", Color.MediumPurple);
                 } else {
-                    Console.WriteLine(APIConfig.ERROR_GET_ACCOUNT_INFO + "\n");
+                    Console.WriteLine(APIConfig.ERROR_GET_ACCOUNT_INFO + "\n", Color.OrangeRed);
                 }
 
                 callback(accountDataResponse);
@@ -88,11 +90,11 @@ namespace BOT {
         }
 
         private void OnConnectionFailed(ShiftServerData data) {
-            Console.WriteLine(ON_CONNECTION_SUCCESS + data);
+            Console.WriteLine(ON_CONNECTION_FAILED + data, Color.OrangeRed);
         }
 
         private void OnConnectionLost(ShiftServerData data) {
-            Console.WriteLine(ON_CONNECTION_SUCCESS + data);
+            Console.WriteLine(ON_CONNECTION_LOST + data, Color.OrangeRed);
         }
 
     }

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Drawing;
+using Console = Colorful.Console;
 
 namespace BOT {
 
@@ -13,17 +15,17 @@ namespace BOT {
         public static Names Names { get; private set; }
 
         public DB() {
-            Console.WriteLine("...Initializing Database");
+            Console.WriteLine("...Initializing Database", Color.LightSkyBlue);
 
             Names = new Names();
 
             LoadNames();
 
-            Console.WriteLine("...Successfully initialized Database");
+            Console.WriteLine("...Successfully initialized Database", Color.LightSeaGreen);
         }
 
         private void LoadNames() {
-            Console.WriteLine("...Loading name database");
+            Console.WriteLine("...Loading name database", Color.LightSkyBlue);
 
             if (File.Exists("names.json")) {
                 using (StreamReader r = new StreamReader(NAMES_FILE + NAMES_FILE_TYPE)) {
@@ -31,10 +33,10 @@ namespace BOT {
 
                     Names = JsonConvert.DeserializeObject<Names>(json);
 
-                    Console.WriteLine("...(" + Names.data.Count + ") Names found!");
+                    Console.WriteLine("...(" + Names.data.Count + ") Names found!", Color.LightSeaGreen);
                 }
             } else {
-                Console.WriteLine("DB ERROR: File not found! " + NAMES_FILE + NAMES_FILE);
+                Console.WriteLine("DB ERROR: File not found! " + NAMES_FILE + NAMES_FILE, Color.OrangeRed);
             }
         }
 

@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Drawing;
+using Console = Colorful.Console;
 
 namespace BOT {
 
@@ -48,7 +50,7 @@ namespace BOT {
         private static readonly HttpClient client = new HttpClient();
 
         public static void GuestLoginPostMethod(RequestGuestAuth requestData, Action<Auth> callback) {
-            Console.WriteLine(ATTEMP_TO_GET_GUEST_SESSION);
+            Console.WriteLine(ATTEMP_TO_GET_GUEST_SESSION, Color.Orange);
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(URL_GuestLogin);
             httpWebRequest.ContentType = "application/json";
@@ -69,7 +71,7 @@ namespace BOT {
         }
 
         public static void AccountDataPostMethod(RequestAccountData requestData, Action<Account> callback) {
-            Console.WriteLine(ATTEMP_TO_GET_ACCOUNT_INFO);
+            Console.WriteLine(ATTEMP_TO_GET_ACCOUNT_INFO, Color.Orange);
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(URL_AccountData);
             httpWebRequest.ContentType = "application/json";
@@ -90,7 +92,7 @@ namespace BOT {
         }
 
         public static void CreateCharacterPostMethod(RequestCharAdd requestCharAdd, Action<CharAdd> callback) {
-            Console.WriteLine(ATTEMP_TO_CREATE_CHARACTER);
+            Console.WriteLine(ATTEMP_TO_CREATE_CHARACTER, Color.Orange);
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(URL_CreateCharacter);
             httpWebRequest.ContentType = "application/json";
