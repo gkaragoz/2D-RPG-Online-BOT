@@ -25,7 +25,7 @@ namespace BOT {
                     break;
                 }
 
-                Console.WriteLine("Trying to create a character...(" + tryCounter + ")", Color.LightSkyBlue);
+                Console.WriteLine("Trying to create a character...(" + tryCounter + ") " + name, Color.LightSkyBlue);
 
                 RequestCharAdd requestCreateCharacter = new RequestCharAdd();
                 requestCreateCharacter.class_index = classIndex;
