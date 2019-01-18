@@ -27,6 +27,7 @@ namespace BOT {
                 switch (userInput) {
                     case "q":
                         runForever = false;
+                        NetworkManager.mss.Disconnect();
                         break;
                     case "--help":
                         Console.WriteLine("\nCOMMANDS", Color.LemonChiffon);
@@ -66,6 +67,8 @@ namespace BOT {
                 CharacterManager.instance.CreateCharacter(DB.Names.GetRandomName(), 0);
 
                 AccountManager.instance.SayInfo();
+
+                RoomManager.instance.JoinRoom("123");
             }
         }
 
@@ -75,7 +78,10 @@ namespace BOT {
             NetworkManager networkManager = new NetworkManager();
             AccountManager accountManager = new AccountManager();
             CharacterManager characterManager = new CharacterManager();
+            RoomManager roomManager = new RoomManager();
             DB database = new DB();
+
+            RoomManager.instance.Initialize();
 
             Console.WriteLine("Building completed!\n", Color.LawnGreen);
         }

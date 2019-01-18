@@ -3,6 +3,7 @@ using ShiftServer.Client.Data.Entities;
 using ShiftServer.Proto.RestModels;
 using System;
 using System.Drawing;
+using System.Threading;
 using Console = Colorful.Console;
 
 namespace BOT {
@@ -16,9 +17,9 @@ namespace BOT {
         public string SessionID { get; set; }
         public string UserID { get; set; }
 
-        private string _hostName = "127.0.0.0";
+        private string _hostName = "192.168.1.2";
 
-        private int _port = 1337;
+        private int _port = 2000;
 
         private ConfigData _cfg;
 
@@ -34,6 +35,11 @@ namespace BOT {
                 instance = this;
             }
 
+            Thread listenerThread = new Thread(Listen);
+            listenerThread.IsBackground = true;
+            listenerThread.Name = "Event Listener";
+            listenerThread.Start();
+
             mss = new ManaShiftServer();
             mss.AddEventListener(MSServerEvent.Connection, OnConnectionSuccess);
             mss.AddEventListener(MSServerEvent.ConnectionFailed, OnConnectionFailed);
@@ -43,7 +49,7 @@ namespace BOT {
         }
 
         public void ConnectToGameplayServer() {
-            Console.WriteLine(CONNECT);
+            Console.WriteLine(CONNECT, Color.GreenYellow);
 
             _cfg = new ConfigData();
             _cfg.Host = _hostName;
@@ -86,7 +92,7 @@ namespace BOT {
         }
 
         private void OnConnectionSuccess(ShiftServerData data) {
-            Console.WriteLine(ON_CONNECTION_SUCCESS + data);
+            Console.WriteLine(ON_CONNECTION_SUCCESS + data, Color.LawnGreen);
         }
 
         private void OnConnectionFailed(ShiftServerData data) {
@@ -95,6 +101,14 @@ namespace BOT {
 
         private void OnConnectionLost(ShiftServerData data) {
             Console.WriteLine(ON_CONNECTION_LOST + data, Color.OrangeRed);
+        }
+
+        private void Listen() {
+            while (true) {
+                if (mss != null) {
+                    mss.Listen();
+                }
+            }
         }
 
     }
