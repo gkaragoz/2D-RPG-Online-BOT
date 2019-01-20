@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using System.Threading.Tasks;
 using Console = Colorful.Console;
 
 namespace BOT {
@@ -72,9 +73,24 @@ namespace BOT {
 
             NetworkManager.mss.SendMessage(MSServerEvent.RoomJoin, data);
         }
+        public void LeaveRoom(string roomID)
+        {
+
+
+            Console.WriteLine("Trying to leave room(" + roomID + ")", Color.GreenYellow);
+
+            ShiftServerData data = new ShiftServerData();
+
+            RoomData roomData = new RoomData();
+            roomData.Room = new MSSRoom();
+            roomData.Room.Id = roomID;
+
+            data.RoomData = roomData;
+
+            NetworkManager.mss.SendMessage(MSServerEvent.RoomLeave, data);
+        }
 
         private void OnRoomUpdated(ShiftServerData data) {
-            Console.WriteLine("\nRoom update!\n", data, Color.LawnGreen);
         }
 
         private void OnPlayerCreated(ShiftServerData data) {
