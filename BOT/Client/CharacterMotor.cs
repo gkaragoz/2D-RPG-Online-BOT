@@ -19,6 +19,8 @@ namespace BOT {
         private Timer _movementTimer;
         private Timer _directionTimer;
 
+        private bool _hasInitialized = false;
+
         public CharacterMotor(NetworkManager networkManager) {
             Console.WriteLine("...Initializing CharacterMotor", Color.LightSkyBlue);
 

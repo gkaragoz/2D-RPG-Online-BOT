@@ -68,6 +68,8 @@ namespace BOT {
 
                 _characterManager.CreateCharacter(DB.Names.GetRandomName(), 0);
 
+                JoinRoom("123");
+
                 SayInfo();
             }
         }

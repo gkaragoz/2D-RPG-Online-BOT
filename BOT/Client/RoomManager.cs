@@ -101,6 +101,8 @@ namespace BOT {
             Console.WriteLine("\nRoom join success!\n", data, Color.LawnGreen);
 
             CurrentRoomID = data.RoomData.Room.Id;
+
+            _characterManager.Move();
         }
 
         private void OnRoomJoinFailed(ShiftServerData data) {
