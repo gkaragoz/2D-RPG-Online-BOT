@@ -41,7 +41,7 @@ namespace BOT {
 
             Random rnd = new Random();
 
-            _directionTimer = new Timer(rnd.Next(1000, 5000));
+            _directionTimer = new Timer(rnd.Next(500, 5000));
             _directionTimer.Elapsed += ChangeDirection;
             _directionTimer.AutoReset = true;
             _directionTimer.Enabled = true;
@@ -59,7 +59,8 @@ namespace BOT {
         }
 
         private void ChangeDirection(Object source, ElapsedEventArgs e) {
-            _currentInput = GetNextInput();
+            //_currentInput = GetNextInput();
+            _currentInput = GetRandomInput();
         }
 
         private void Move(Object source, ElapsedEventArgs e) {
@@ -82,6 +83,11 @@ namespace BOT {
             }
 
             return _inputs[_currentInputIndex];
+        }
+
+        private Vector3 GetRandomInput() {
+            Random rand = new Random();
+            return _inputs[rand.Next(0, _inputs.Count)];
         }
 
     }
