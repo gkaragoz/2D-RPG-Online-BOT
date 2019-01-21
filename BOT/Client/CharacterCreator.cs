@@ -10,8 +10,12 @@ namespace BOT {
         public int tryCounter = 0;
         public int tryMax = 5;
 
-        public CharacterCreator() {
+        private NetworkManager _networkManager;
+
+        public CharacterCreator(NetworkManager networkManager) {
             Console.WriteLine("...Initializing CharacterCreator", Color.LightSkyBlue);
+
+            this._networkManager = networkManager;
 
             Console.WriteLine("...Successfully initialized CharacterCreator", Color.LightSeaGreen);
         }
@@ -30,7 +34,7 @@ namespace BOT {
                 RequestCharAdd requestCreateCharacter = new RequestCharAdd();
                 requestCreateCharacter.class_index = classIndex;
                 requestCreateCharacter.char_name = name;
-                requestCreateCharacter.session_id = NetworkManager.instance.SessionID;
+                requestCreateCharacter.session_id = _networkManager.SessionID;
 
                 APIConfig.CreateCharacterPostMethod(requestCreateCharacter, (CharAdd charAddResponse) => {
                     if (charAddResponse.success) {

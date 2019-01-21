@@ -6,24 +6,21 @@ using Console = Colorful.Console;
 namespace BOT {
     public class CharacterManager {
 
-        public static CharacterManager instance;
-
         public Action<CharacterModel> onCharacterCreated;
         public Action<string> onCharacterSelected;
 
         public CharacterModel SelectedCharacter { get { return _selectedCharacter; } }
 
+        private NetworkManager _networkManager;
         private CharacterModel _selectedCharacter;
         private CharacterCreator _characterCreator;
 
-        public CharacterManager() {
+        public CharacterManager(NetworkManager networkManager) {
             Console.WriteLine("...Initializing CharacterManager", Color.LightSkyBlue);
 
-            if (instance == null) {
-                instance = this;
-            }
+            this._networkManager = networkManager;
 
-            _characterCreator = new CharacterCreator();
+            _characterCreator = new CharacterCreator(_networkManager);
 
             Console.WriteLine("...Successfully initialized CharacterManager", Color.LightSeaGreen);
         }
@@ -44,7 +41,7 @@ namespace BOT {
         public void SelectCharacter(CharacterModel selectedCharacter) {
             RequestCharSelect RequestSelectCharacter = new RequestCharSelect();
             RequestSelectCharacter.char_name = selectedCharacter.name;
-            RequestSelectCharacter.session_id = NetworkManager.instance.SessionID;
+            RequestSelectCharacter.session_id = _networkManager.SessionID;
 
             APIConfig.SelectCharacterPostMethod(RequestSelectCharacter, (CharSelect charSelectResponse) => {
                 if (charSelectResponse.success) {

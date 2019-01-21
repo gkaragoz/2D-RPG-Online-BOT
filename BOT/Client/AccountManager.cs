@@ -1,6 +1,5 @@
 ﻿using Colorful;
 using ShiftServer.Proto.RestModels;
-using System;
 using System.Drawing;
 using Console = Colorful.Console;
 
@@ -8,16 +7,14 @@ namespace BOT {
 
     public class AccountManager {
 
-        public static AccountManager instance;
-
         private Account _account;
 
-        public AccountManager() {
+        private CharacterManager _characterManager;
+
+        public AccountManager(CharacterManager characterManager) {
             Console.WriteLine("...Initializing AccountManager", Color.LightSkyBlue);
 
-            if (instance == null) {
-                instance = this;
-            }
+            this._characterManager = characterManager;
 
             Console.WriteLine("...Successfully initialized AccountManager", Color.LightSeaGreen);
         }
@@ -27,8 +24,8 @@ namespace BOT {
 
             this._account = account;
 
-            CharacterManager.instance.onCharacterCreated = AddCharacter;
-            CharacterManager.instance.onCharacterSelected = SelectCharacter;
+            _characterManager.onCharacterCreated = AddCharacter;
+            _characterManager.onCharacterSelected = SelectCharacter;
 
             Console.WriteLine("Account saved successfully!\n", Color.LightSeaGreen);
         }

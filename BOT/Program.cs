@@ -1,16 +1,18 @@
 ﻿using ShiftServer.Proto.RestModels;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using Console = Colorful.Console;
 
 namespace BOT {
 
     class Program {
 
+        private static Client _client;
+
         static void Main(string[] args) {
             CreateSystems();
-
-            NetworkManager.instance.LoginAsAGuest(OnLoginAsAGuest);
 
             Run();
         }
@@ -27,64 +29,65 @@ namespace BOT {
                 switch (userInput) {
                     case "q":
                         runForever = false;
-                        NetworkManager.mss.Disconnect();
+
+                        _client.Disconnect();
                         break;
                     case "--help":
                         Console.WriteLine("\nCOMMANDS", Color.LemonChiffon);
-                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-5} |",
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-12} |",
+
                             "Quit",
                             "q",
                             Color.LemonChiffon);
-                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-5} |",
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-12} |",
+
+                            "Join Room",
+                            "join-room",
+                            Color.LemonChiffon);
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-12} |",
+
+                            "Leave Room",
+                            "leave-room",
+                            Color.LemonChiffon);
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-12} |",
 
                             "Account Info",
                             "acc",
                             Color.LemonChiffon);
-                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-5} |",
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-12} |",
 
                             "Clear Console",
                             "cls",
                             Color.LemonChiffon);
                         break;
+                    case "join-room":
+                        _client.JoinRoom("123");
+                        break;
+                    case "leave-room":
+                        _client.LeaveRoom();
+                        break;
                     case "acc":
-                        AccountManager.instance.SayInfo();
+                        _client.SayInfo();
                         break;
                     case "cls":
                         Console.Clear();
                         break;
                 }
-            }
-        }
 
-        private static void OnLoginAsAGuest(bool success) {
-            NetworkManager.instance.RequestAccountData(OnRequestAccountData);
-        }
-
-        private static void OnRequestAccountData(Account accountDataResponse) {
-            if (accountDataResponse.success) {
-                AccountManager.instance.Initialize(accountDataResponse);
-
-                CharacterManager.instance.CreateCharacter(DB.Names.GetRandomName(), 0);
-
-                AccountManager.instance.SayInfo();
-
-                RoomManager.instance.JoinRoom("123");
+                Thread.Sleep(10);
             }
         }
 
         static void CreateSystems() {
             Console.WriteLine("Building systems...", Color.LightSkyBlue);
 
-            NetworkManager networkManager = new NetworkManager();
-            AccountManager accountManager = new AccountManager();
-            CharacterManager characterManager = new CharacterManager();
-            RoomManager roomManager = new RoomManager();
             DB database = new DB();
 
-            RoomManager.instance.Initialize();
+            _client = new Client();
 
             Console.WriteLine("Building completed!\n", Color.LawnGreen);
         }
+
     }
 
 }

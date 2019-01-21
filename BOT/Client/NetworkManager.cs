@@ -3,21 +3,18 @@ using ShiftServer.Client.Data.Entities;
 using ShiftServer.Proto.RestModels;
 using System;
 using System.Drawing;
-using System.Threading;
 using Console = Colorful.Console;
 
 namespace BOT {
 
     public class NetworkManager {
 
-        public static NetworkManager instance;
-
-        public static ManaShiftServer mss;
+        public ManaShiftServer mss;
 
         public string SessionID { get; set; }
         public string UserID { get; set; }
 
-        private string _hostName = "192.168.1.2";
+        private string _hostName = "192.168.1.3";
 
         private int _port = 2000;
 
@@ -30,15 +27,6 @@ namespace BOT {
 
         public NetworkManager() {
             Console.WriteLine("...Initializing NetworkManager", Color.LightSkyBlue);
-
-            if (instance == null) {
-                instance = this;
-            }
-
-            Thread listenerThread = new Thread(Listen);
-            listenerThread.IsBackground = true;
-            listenerThread.Name = "Event Listener";
-            listenerThread.Start();
 
             mss = new ManaShiftServer();
             mss.AddEventListener(MSServerEvent.Connection, OnConnectionSuccess);
@@ -101,14 +89,6 @@ namespace BOT {
 
         private void OnConnectionLost(ShiftServerData data) {
             Console.WriteLine(ON_CONNECTION_LOST + data, Color.OrangeRed);
-        }
-
-        private void Listen() {
-            while (true) {
-                if (mss != null) {
-                    mss.Listen();
-                }
-            }
         }
 
     }

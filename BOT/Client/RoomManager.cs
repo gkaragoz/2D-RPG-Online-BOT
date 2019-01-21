@@ -8,37 +8,39 @@ namespace BOT {
 
     public class RoomManager {
 
-        public static RoomManager instance;
+        private NetworkManager _networkManager;
+        private CharacterManager _characterManager;
 
-        public RoomManager() {
+        public string CurrentRoomID { get; set; }
+
+        public RoomManager(NetworkManager networkManager, CharacterManager characterManager) {
             Console.WriteLine("...Initializing RoomManager", Color.LightSkyBlue);
 
-            if (instance == null) {
-                instance = this;
-            }
+            this._networkManager = networkManager;
+            this._characterManager = characterManager;
 
             Console.WriteLine("...Successfully initialized RoomManager", Color.LightSeaGreen);
         }
 
         public void Initialize() {
-            NetworkManager.mss.AddEventListener(MSPlayerEvent.RoomUpdate, OnRoomUpdated);
+            _networkManager.mss.AddEventListener(MSPlayerEvent.RoomUpdate, OnRoomUpdated);
 
-            NetworkManager.mss.AddEventListener(MSPlayerEvent.CreatePlayer, OnPlayerCreated);
+            _networkManager.mss.AddEventListener(MSPlayerEvent.CreatePlayer, OnPlayerCreated);
 
-            NetworkManager.mss.AddEventListener(MSServerEvent.RoomJoin, OnRoomJoinSuccess);
-            NetworkManager.mss.AddEventListener(MSServerEvent.RoomJoinFailed, OnRoomJoinFailed);
+            _networkManager.mss.AddEventListener(MSServerEvent.RoomJoin, OnRoomJoinSuccess);
+            _networkManager.mss.AddEventListener(MSServerEvent.RoomJoinFailed, OnRoomJoinFailed);
 
-            NetworkManager.mss.AddEventListener(MSServerEvent.RoomCreate, OnRoomCreated);
-            NetworkManager.mss.AddEventListener(MSServerEvent.RoomCreateFailed, OnRoomCreateFailed);
+            _networkManager.mss.AddEventListener(MSServerEvent.RoomCreate, OnRoomCreated);
+            _networkManager.mss.AddEventListener(MSServerEvent.RoomCreateFailed, OnRoomCreateFailed);
 
-            NetworkManager.mss.AddEventListener(MSServerEvent.RoomLeave, OnRoomLeaveSuccess);
-            NetworkManager.mss.AddEventListener(MSServerEvent.RoomLeaveFailed, OnRoomLeaveFailed);
+            _networkManager.mss.AddEventListener(MSServerEvent.RoomLeave, OnRoomLeaveSuccess);
+            _networkManager.mss.AddEventListener(MSServerEvent.RoomLeaveFailed, OnRoomLeaveFailed);
         }
 
         public void CreateRoom(int maxUserCount) {
-            NetworkManager.instance.ConnectToGameplayServer();
+            _networkManager.ConnectToGameplayServer();
 
-            while (NetworkManager.mss.IsConnected != true) { };
+            while (_networkManager.mss.IsConnected != true) { };
 
             Console.WriteLine("Trying to create a room.", Color.GreenYellow);
 
@@ -47,19 +49,19 @@ namespace BOT {
             RoomData roomData = new RoomData();
             roomData.Room = new MSSRoom();
 
-            roomData.Room.Name = CharacterManager.instance.SelectedCharacter.name + "\'s Room";
+            roomData.Room.Name = _characterManager.SelectedCharacter.name + "\'s Room";
             roomData.Room.IsPrivate = false;
             roomData.Room.MaxUserCount = maxUserCount;
 
             data.RoomData = roomData;
 
-            NetworkManager.mss.SendMessage(MSServerEvent.RoomCreate, data);
+            _networkManager.mss.SendMessage(MSServerEvent.RoomCreate, data);
         }
 
         public void JoinRoom(string roomID) {
-            NetworkManager.instance.ConnectToGameplayServer();
+            _networkManager.ConnectToGameplayServer();
 
-            while (NetworkManager.mss.IsConnected != true) { };
+            while (_networkManager.mss.IsConnected != true) { };
 
             Console.WriteLine("Trying to join room(" + roomID + ")", Color.GreenYellow);
 
@@ -71,23 +73,21 @@ namespace BOT {
 
             data.RoomData = roomData;
 
-            NetworkManager.mss.SendMessage(MSServerEvent.RoomJoin, data);
+            _networkManager.mss.SendMessage(MSServerEvent.RoomJoin, data);
         }
-        public void LeaveRoom(string roomID)
-        {
 
-
-            Console.WriteLine("Trying to leave room(" + roomID + ")", Color.GreenYellow);
+        public void LeaveRoom() {
+            Console.WriteLine("Trying to leave room(" + CurrentRoomID + ")", Color.GreenYellow);
 
             ShiftServerData data = new ShiftServerData();
 
             RoomData roomData = new RoomData();
             roomData.Room = new MSSRoom();
-            roomData.Room.Id = roomID;
+            roomData.Room.Id = CurrentRoomID;
 
             data.RoomData = roomData;
 
-            NetworkManager.mss.SendMessage(MSServerEvent.RoomLeave, data);
+            _networkManager.mss.SendMessage(MSServerEvent.RoomLeave, data);
         }
 
         private void OnRoomUpdated(ShiftServerData data) {
@@ -99,22 +99,32 @@ namespace BOT {
 
         private void OnRoomJoinSuccess(ShiftServerData data) {
             Console.WriteLine("\nRoom join success!\n", data, Color.LawnGreen);
+
+            CurrentRoomID = data.RoomData.Room.Id;
         }
 
         private void OnRoomJoinFailed(ShiftServerData data) {
             Console.WriteLine("\nRoom join failed!\n", data, Color.OrangeRed);
+
+            CurrentRoomID = "";
         }
 
         private void OnRoomCreated(ShiftServerData data) {
             Console.WriteLine("\nRoom created!\n", data, Color.LawnGreen);
+
+            CurrentRoomID = data.RoomData.Room.Id;
         }
 
         private void OnRoomCreateFailed(ShiftServerData data) {
             Console.WriteLine("\nRoom create failed!\n", data, Color.OrangeRed);
+
+            CurrentRoomID = "";
         }
 
         private void OnRoomLeaveSuccess(ShiftServerData data) {
             Console.WriteLine("\nRoom leave success!\n", data, Color.LawnGreen);
+
+            CurrentRoomID = "";
         }
 
         private void OnRoomLeaveFailed(ShiftServerData data) {
