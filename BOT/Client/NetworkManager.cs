@@ -14,7 +14,7 @@ namespace BOT {
         public string SessionID { get; set; }
         public string UserID { get; set; }
 
-        private string _hostName = "192.168.1.3";
+        private string _hostName = "192.168.1.2";
 
         private int _port = 2000;
 

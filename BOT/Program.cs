@@ -1,6 +1,4 @@
-﻿using ShiftServer.Proto.RestModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
 using System.Threading;
 using Console = Colorful.Console;
@@ -56,6 +54,16 @@ namespace BOT {
                             Color.LemonChiffon);
                         Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-12} |",
 
+                            "Start Movement",
+                            "start-movement",
+                            Color.LemonChiffon);
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-12} |",
+
+                            "Stop Movement",
+                            "stop-movement",
+                            Color.LemonChiffon);
+                        Console.WriteLine("-|- Entry: {0,-20} | Command: {1,-12} |",
+
                             "Clear Console",
                             "cls",
                             Color.LemonChiffon);
@@ -68,6 +76,12 @@ namespace BOT {
                         break;
                     case "acc":
                         _client.SayInfo();
+                        break;
+                    case "start-movement":
+                        _client.Move();
+                        break;
+                    case "stop-movement":
+                        _client.Stop();
                         break;
                     case "cls":
                         Console.Clear();

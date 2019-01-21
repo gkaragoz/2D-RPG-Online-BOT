@@ -40,6 +40,14 @@ namespace BOT {
             _roomManager.LeaveRoom();
         }
 
+        public void Move() {
+            _characterManager.Move();
+        }
+
+        public void Stop() {
+            _characterManager.Stop();
+        }
+
         public void Disconnect() {
             if (_networkManager.mss.IsConnected) {
                 _networkManager.mss.Disconnect();

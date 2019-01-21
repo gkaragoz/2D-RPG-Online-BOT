@@ -14,6 +14,7 @@ namespace BOT {
         private NetworkManager _networkManager;
         private CharacterModel _selectedCharacter;
         private CharacterCreator _characterCreator;
+        private CharacterMotor _characterMotor;
 
         public CharacterManager(NetworkManager networkManager) {
             Console.WriteLine("...Initializing CharacterManager", Color.LightSkyBlue);
@@ -21,6 +22,7 @@ namespace BOT {
             this._networkManager = networkManager;
 
             _characterCreator = new CharacterCreator(_networkManager);
+            _characterMotor = new CharacterMotor(_networkManager);
 
             Console.WriteLine("...Successfully initialized CharacterManager", Color.LightSeaGreen);
         }
@@ -53,6 +55,14 @@ namespace BOT {
                     Console.WriteLine(APIConfig.ERROR_SELECT_CHARACTER + "\n", Color.OrangeRed);
                 }
             });
+        }
+
+        public void Move() {
+            _characterMotor.StartMovement();
+        }
+
+        public void Stop() {
+            _characterMotor.StopMovement();
         }
 
     }
