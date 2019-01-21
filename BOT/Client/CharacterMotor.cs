@@ -14,6 +14,7 @@ namespace BOT {
         private int _currentInputIndex = 0;
         private Vector3 _currentInput = Vector3.Zero;
         private Vector3 _currentPosition = Vector3.Zero;
+        private int _nonAckInput = 0;
 
         private Timer _movementTimer;
         private Timer _directionTimer;
@@ -38,7 +39,9 @@ namespace BOT {
             _movementTimer.AutoReset = true;
             _movementTimer.Enabled = true;
 
-            _directionTimer = new Timer(1000);
+            Random rnd = new Random();
+
+            _directionTimer = new Timer(rnd.Next(1000, 5000));
             _directionTimer.Elapsed += ChangeDirection;
             _directionTimer.AutoReset = true;
             _directionTimer.Enabled = true;
@@ -66,6 +69,7 @@ namespace BOT {
             data.PlayerInput.PosX = _currentInput.posX;
             data.PlayerInput.PosZ = _currentInput.posZ;
             data.PlayerInput.PressTime = 0.02f;
+            data.PlayerInput.SequenceID = _nonAckInput++;
 
             _networkManager.mss.SendMessage(MSPlayerEvent.Move, data);
         }
